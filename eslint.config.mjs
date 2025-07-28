@@ -4,7 +4,8 @@ import simpleImportSort from "eslint-plugin-simple-import-sort"
 
 import withNuxt from "./.nuxt/eslint.config.mjs"
 
-export default withNuxt({ plugins: { "@stylistic": stylistic },
+export default withNuxt({
+  plugins: { "@stylistic": stylistic },
   rules: {
     "@stylistic/array-bracket-newline": [
       "error",
@@ -47,7 +48,7 @@ export default withNuxt({ plugins: { "@stylistic": stylistic },
     "@stylistic/no-floating-decimal": "error",
     "@stylistic/object-curly-newline": [
       "error",
-      { minProperties: 3, consistent: true },
+      { minProperties: 3, multiline: true },
     ],
     "@stylistic/one-var-declaration-per-line": [
       "error",
@@ -56,18 +57,20 @@ export default withNuxt({ plugins: { "@stylistic": stylistic },
     "@stylistic/quotes": [
       "error",
       "double",
-      { allowTemplateLiterals: true },
     ],
     "@stylistic/indent": [
       "error",
       2,
     ],
-  } },
-{ plugins: { "simple-import-sort": simpleImportSort },
+  },
+},
+{
+  plugins: { "simple-import-sort": simpleImportSort },
   rules: {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-duplicates": "error",
-  } })
+  },
+})

@@ -13,11 +13,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: "2025-07-15",
 
-  eslint: {
-    config: {
-      stylistic: true,
-    },
-  },
+  eslint: { config: { stylistic: true } },
 
   // https://i18n.nuxtjs.org/docs/getting-started/usage
   // https://nuxtseo.com/docs/site-config/guides/i18n
@@ -31,8 +27,6 @@ export default defineNuxtConfig({
     ],
   },
 
-  pinia: {
-    storesDirs: [ "./stores/**" ],
-  },
+  pinia: { storesDirs: [ "./stores/**" ] },
 
 })
