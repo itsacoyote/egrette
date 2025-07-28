@@ -1,7 +1,11 @@
 <template>
   <div>
     <h1>{{ $t('welcome') }}</h1>
-    <button v-for="locale in locales" :key="locale" @click="setLocale(locale.code)">
+    <button
+      v-for="locale in locales"
+      :key="locale"
+      @click="setLocale(locale.code)"
+    >
       {{ locale.name }}
     </button>
   </div>

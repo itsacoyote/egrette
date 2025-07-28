@@ -1,4 +1,4 @@
-import { defineAppConfig } from "nuxt/app";
+import { defineAppConfig } from "nuxt/app"
 
 export default defineAppConfig({
   ui: {
@@ -7,4 +7,4 @@ export default defineAppConfig({
       neutral: "slate",
     },
   },
-});
+})
