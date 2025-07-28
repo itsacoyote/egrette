@@ -1,0 +1,7 @@
+{
+  "nuxtSiteConfig": {
+    "name": "My Site",
+    "description": "My site description"
+  },
+  "welcome": "Welcome"
+}
