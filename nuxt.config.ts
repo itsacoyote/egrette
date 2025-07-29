@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxtjs/seo",
     "@nuxtjs/i18n",
     "@pinia/nuxt",
+    "@wagmi/vue/nuxt",
   ],
   devtools: { enabled: true },
   compatibilityDate: "2025-07-15",
