@@ -1,7 +1,7 @@
 {
   "nuxtSiteConfig": {
-    "name": "My Site",
-    "description": "My site description"
+    "name": "Egrette",
+    "description": ""
   },
   "welcome": "Welcome"
 }

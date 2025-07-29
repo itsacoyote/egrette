@@ -5,9 +5,12 @@
   "editor.quickSuggestions": {
     "strings": "on"
   },
-  "tailwindCSS.classAttributes": ["class", "ui"],
+  "tailwindCSS.classAttributes": ["class"],
+  // https://tailwindcss.nuxtjs.org/tailwindcss/editor-support#string-classes-autocomplete
   "tailwindCSS.experimental.classRegex": [
-    ["ui:\\s*{([^)]*)\\s*}", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+    "tw`(.*?)`",
+    "tw\\('(.*?)'\\)",
+    "tw\\(\\s*('(.*?)'|\"(.*?)\")\\s*\\)"
   ],
   "eslint.validate": ["javascript", "typescript", "vue"],
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",

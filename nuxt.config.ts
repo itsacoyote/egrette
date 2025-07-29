@@ -1,3 +1,5 @@
+import tailwindcss from "@tailwindcss/vite"
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -5,17 +7,44 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@nuxt/image",
     "@nuxt/test-utils",
-    "@nuxt/ui",
     "@nuxtjs/seo",
     "@nuxtjs/i18n",
     "@pinia/nuxt",
-    "@wagmi/vue/nuxt",
+    "@nuxt/icon",
+    "@nuxtjs/color-mode",
+    "@nuxt/fonts",
+    "nuxt-svgo",
+    "@vueuse/nuxt",
   ],
   devtools: { enabled: true },
+
+  app: {
+    head: {
+      link: [
+        {
+          rel: "icon", type: "img/png", sizes: "16x16", href: "/favicon-16x16.png",
+        },
+        {
+          rel: "icon", type: "img/png", sizes: "32x32", href: "/favicon-32x32.png",
+        },
+        {
+          rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png",
+        },
+      ],
+    },
+  },
+  css: [ "~/assets/css/tailwind.css" ],
+  colorMode: {
+    classPrefix: "",
+    classSuffix: "",
+    dataValue: "theme",
+  },
   compatibilityDate: "2025-07-15",
 
-  eslint: { config: { stylistic: true } },
+  vite: { plugins: [ tailwindcss() ] },
 
+  eslint: { config: { stylistic: true } },
+  fonts: { provider: "google", families: [{ name: "Inria Sans", provider: "google" }] },
   // https://i18n.nuxtjs.org/docs/getting-started/usage
   // https://nuxtseo.com/docs/site-config/guides/i18n
   i18n: {
@@ -28,6 +57,6 @@ export default defineNuxtConfig({
     ],
   },
 
-  pinia: { storesDirs: [ "./stores/**" ] },
-
+  pinia: { storesDirs: [ "./app/stores/**" ] },
+  svgo: { autoImportPath: "./assets/svg/" },
 })

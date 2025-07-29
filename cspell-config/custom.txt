@@ -1,1 +1,6 @@
 Egrette
+Nuxt
+nuxt
+nuxtjs
+Viem
+Wagmi
