@@ -16,23 +16,8 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "reka-ui/nuxt",
   ],
-  ssr: false,
   imports: {
     presets: [
-      {
-        from: "@reown/appkit/vue",
-        imports: [
-          "useAppKit",
-          "useAppKitAccount",
-          "useAppKitNetwork",
-          "useAppKitState",
-          "useAppKitTheme",
-          "useAppKitEvents",
-          "useDisconnect",
-          "useWalletInfo",
-          "useAppKitProvider",
-        ],
-      },
       {
         from: "@wagmi/vue",
         imports: [
@@ -49,6 +34,7 @@ export default defineNuxtConfig({
           "useConnections",
           "useConnectorClient",
           "useConnectors",
+          "useDisconnect",
           "useEnsAddress",
           "useEnsAvatar",
           "useEstimateGas",

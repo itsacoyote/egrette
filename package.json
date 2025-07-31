@@ -23,8 +23,6 @@
     "@nuxtjs/i18n": "^10.0.3",
     "@nuxtjs/seo": "^3.1.0",
     "@pinia/nuxt": "^0.11.2",
-    "@reown/appkit": "^1.7.17",
-    "@reown/appkit-adapter-wagmi": "^1.7.17",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/vue-query": "^5.83.0",
     "@vueuse/nuxt": "^13.6.0",

@@ -1,6 +1,6 @@
 <template>
   <button
-    v-if="!isConnected"
+    v-if="!hasConnection"
     class="btn btn-primary"
     @click="open()"
   >
@@ -11,7 +11,7 @@
     v-model:open="toggleState"
   >
     <DropdownMenu.Trigger class="btn btn-primary">
-      {{ shortenedAddress }}
+      ADDRESS
       &nbsp;<Icon :name="toggleState ? 'fluent:chevron-up-16-regular' : 'fluent:chevron-down-16-regular'" />
     </DropdownMenu.Trigger>
 
@@ -33,14 +33,14 @@ import { DropdownMenu } from "reka-ui/namespaced"
 
 const toggleState = ref(false)
 
-const accountData = useAppKitAccount({ namespace: "eip155" })
-const isConnected = computed(() => accountData.value.isConnected)
-const { open } = useAppKit()
-const shortenedAddress = formatShortAddress(accountData.value.address)
-setTimeout(() => {
-  console.log("status??", accountData.value.isConnected)
-}, 1000)
-
 const connections = useConnections()
+const hasConnection = computed(() => connections.value.length > 0)
 console.log("Connector", connections)
+const { connect, connectors } = useConnect()
+const walletConnect = connectors.find(connector => connector.id === "walletConnect")
+
+const open = () => {
+  console.log("opening")
+  connect({ connector: walletConnect! })
+}
 </script>

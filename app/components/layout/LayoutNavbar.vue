@@ -25,7 +25,6 @@
     <div class="navbar-end">
       <ClientOnly>
         <AccountButton />
-        <appkit-button balance="hide" />
         <LayoutColorModeButton />
       </ClientOnly>
     </div>
