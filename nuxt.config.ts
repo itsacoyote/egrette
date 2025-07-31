@@ -2,7 +2,6 @@ import tailwindcss from "@tailwindcss/vite"
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-
   modules: [
     "@nuxt/eslint",
     "@nuxt/image",
@@ -15,7 +14,62 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "nuxt-svgo",
     "@vueuse/nuxt",
+    "reka-ui/nuxt",
   ],
+  ssr: false,
+  imports: {
+    presets: [
+      {
+        from: "@reown/appkit/vue",
+        imports: [
+          "useAppKit",
+          "useAppKitAccount",
+          "useAppKitNetwork",
+          "useAppKitState",
+          "useAppKitTheme",
+          "useAppKitEvents",
+          "useDisconnect",
+          "useWalletInfo",
+          "useAppKitProvider",
+        ],
+      },
+      {
+        from: "@wagmi/vue",
+        imports: [
+          "useAccount",
+          "useAccountEffect",
+          "useBalance",
+          "useBlockNumber",
+          "useBytecode",
+          "useChainId",
+          "useChains",
+          "useClient",
+          "useConfig",
+          "useConnect",
+          "useConnections",
+          "useConnectorClient",
+          "useConnectors",
+          "useEnsAddress",
+          "useEnsAvatar",
+          "useEstimateGas",
+          "useReadContract",
+          "useReconnect",
+          "useSendTransaction",
+          "useSignMessage",
+          "useSignTypedData",
+          "useSimulateContract",
+          "useSwitchAccount",
+          "useSwitchChain",
+          "useTransaction",
+          "useTransactionReceipt",
+          "useWaitForTransactionReceipt",
+          "useWatchBlockNumber",
+          "useWatchContractEvent",
+          "useWriteContract",
+        ],
+      },
+    ],
+  },
   devtools: { enabled: true },
 
   app: {
@@ -39,6 +93,8 @@ export default defineNuxtConfig({
     classSuffix: "",
     dataValue: "theme",
   },
+
+  runtimeConfig: { public: { reownProjectId: "" } },
   compatibilityDate: "2025-07-15",
 
   vite: { plugins: [ tailwindcss() ] },

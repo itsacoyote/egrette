@@ -1,6 +1,10 @@
 <template>
-  <div>
+  <ClientOnly>
     <LayoutNavbar />
     <NuxtPage />
-  </div>
+  </ClientOnly>
 </template>
+
+<script setup lang="ts">
+useConnectorStore()
+</script>

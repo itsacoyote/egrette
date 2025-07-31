@@ -8,4 +8,10 @@
   themes: cupcake --default, abyss --prefersdark;
 }
 
+@plugin "daisyui/theme" {
+  name: "cupcake";
+  default: true;
+  --radius-field: 1.3rem;
+}
+
 @custom-variant dark (&:where([data-theme=abyss], [data-theme=abyss] *));

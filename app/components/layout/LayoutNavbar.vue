@@ -20,16 +20,17 @@
             </ul>
           </details>
         </li>
-        <li><a>{{ isLargeScreen }}</a></li>
       </ul>
     </div>
     <div class="navbar-end">
-      <a class="btn">Button</a>
-      <LayoutColorModeButton />
+      <ClientOnly>
+        <AccountButton />
+        <appkit-button balance="hide" />
+        <LayoutColorModeButton />
+      </ClientOnly>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { isLargeScreen } = useAppStateStore()
 </script>

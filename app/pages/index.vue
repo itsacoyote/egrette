@@ -8,6 +8,7 @@
     >
       {{ locale.name }}
     </button>
+    {{ account.address }}
   </div>
 </template>
 
