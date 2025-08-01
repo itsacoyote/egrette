@@ -4,12 +4,16 @@
     "description": ""
   },
   "navigation": {
-    "transfers": "Transfer History"
+    "transfers": "Transfer History",
+    "assets": "Assets"
   },
   "index": {
     "header": "Account Summary"
   },
   "transfers": {
     "header": "Transfers"
+  },
+  "assets": {
+    "header": "Assets"
   }
 }

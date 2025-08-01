@@ -7,7 +7,7 @@ import {
 // Nuxt 3 app aliases
 import { defineNuxtPlugin } from "#imports"
 
-const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 5000 } } })
+const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 3000 } } })
 
 export default defineNuxtPlugin((nuxtApp) => {
   const vueQueryState = useState<DehydratedState | null>("vue-query")

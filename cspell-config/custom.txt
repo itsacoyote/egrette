@@ -1,11 +1,14 @@
 caipNetwork
 Egrette
+egrette
 Nuxt
 nuxt
 nuxtjs
 reka
 reown
 sepolia
+tokentx
 Viem
+viem
 Wagmi
 wagmi

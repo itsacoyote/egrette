@@ -15,17 +15,29 @@
         </tr>
       </thead>
       <tbody v-if="!(isFetching && isPending)">
-        <tr
-          v-for="transaction in data.result"
-          :key="transaction.hash"
-        >
-          <td>{{ formatShortAddress(transaction.hash, 7, 4) }}</td>
-          <td>{{ transaction.methodId }}</td>
-          <td>{{ dayjs(new Date(Number(transaction.timeStamp) * 1000).toLocaleDateString()).fromNow() }}</td>
-          <td>{{ formatShortAddress(transaction.from) }}</td>
-          <td>{{ formatShortAddress(transaction.to) }}</td>
-          <td>{{ formatUnits(transaction.fee, 18) }}</td>
-        </tr>
+        <template v-if="data.result.length">
+          <tr
+            v-for="transaction in data.result"
+            :key="transaction.hash"
+          >
+            <td>{{ formatShortAddress(transaction.hash, 7, 4) }}</td>
+            <td>{{ transaction.methodId }}</td>
+            <td>{{ dayjs(new Date(Number(transaction.timeStamp) * 1000).toLocaleDateString()).fromNow() }}</td>
+            <td>{{ formatShortAddress(transaction.from) }}</td>
+            <td>{{ formatShortAddress(transaction.to) }}</td>
+            <td>{{ formatUnits(transaction.fee, 18) }}</td>
+          </tr>
+        </template>
+        <template v-else>
+          <tr>
+            <td
+              colspan="6"
+              class="text-center"
+            >
+              You have no transactions to display.
+            </td>
+          </tr>
+        </template>
       </tbody>
       <tbody v-else>
         <tr
@@ -63,6 +75,7 @@ dayjs.extend(relativeTime)
 const { blockExplorerApiUrl } = useNetworkStore()
 const account = useAccount()
 
+// TODO: identify & handle error from endpoint since it's a 200
 const fetchTransactions = async () =>
   await fetch(`${blockExplorerApiUrl}/api?module=account&action=txlist&page=1&offset=10&sort=descr&endblock=99999999&startblock=0&address=${account.address.value}`)
     .then(response =>
@@ -71,7 +84,11 @@ const fetchTransactions = async () =>
 const {
   isPending, isFetching, data, error,
 } = useQuery({
-  queryKey: [ "transactions" ],
+  queryKey: [
+    "account",
+    "transactions",
+    account.address,
+  ],
   queryFn: fetchTransactions,
 })
 </script>

@@ -1,0 +1,7 @@
+# TODO List
+
+Various todos to take care of at some point.
+
+- Queries that use the blockExplorerApiUrl need to have that definedin the queryKey so the query can refetch on data changes.
+  - can't test this until we have network switching working
+- Queries of block explorer need to be only for L2.

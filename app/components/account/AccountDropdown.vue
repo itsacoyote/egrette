@@ -1,19 +1,6 @@
 <template>
   <div>
-    <button
-      v-if="!hasConnection"
-      class="btn btn-primary"
-      @click="openModal()"
-    >
-      <template v-if="!opening">
-        Connect wallet
-      </template>
-      <Icon
-        v-else
-        name="fluent:arrow-clockwise-28-filled"
-        class="animate-spin"
-      />
-    </button>
+    <AccountConnectButton v-if="!hasConnection" />
     <DropdownMenu.Root
       v-else
       v-model:open="toggleState"
@@ -78,25 +65,12 @@ import { useNetworkStore } from "~/stores/network"
 
 const toggleState = ref(false)
 
-const { open } = useAppKit()
 const { disconnect } = useAppKitDisconnect()
 const connections = useConnections()
 const hasConnection = computed(() => connections.value.length > 0)
 
 const { address } = useAccount()
 const { blockExplorerUrl } = useNetworkStore()
-
-const appKitState = useAppKitState()
-const opening = ref(false)
-const openModal = () => {
-  opening.value = true
-  open()
-}
-watch(() => appKitState.open, (state) => {
-  if (!state) {
-    opening.value = false
-  }
-})
 
 const disconnectAccount = async () => {
   await disconnect()

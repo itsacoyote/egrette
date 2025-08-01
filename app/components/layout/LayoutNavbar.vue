@@ -11,13 +11,12 @@
       </NuxtLink>
       <ul class="menu menu-horizontal px-1">
         <li><NuxtLink href="/transfers">{{ $t('navigation.transfers') }}</NuxtLink></li>
+        <li><NuxtLink href="/assets">{{ $t('navigation.assets') }}</NuxtLink></li>
       </ul>
     </div>
     <div class="navbar-end">
-      <ClientOnly>
-        <AccountButton />
-        <LayoutColorModeButton />
-      </ClientOnly>
+      <AccountDropdown />
+      <LayoutColorModeButton />
     </div>
   </div>
 </template>
