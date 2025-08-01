@@ -105,7 +105,15 @@ export default defineNuxtConfig({
   vite: { plugins: [ tailwindcss() ] },
 
   eslint: { config: { stylistic: true } },
-  fonts: { provider: "google", families: [{ name: "Inria Sans", provider: "google" }] },
+  fonts: {
+    provider: "google", families: [{ name: "Inria Sans", provider: "google" }], defaults: {
+      weights: [
+        300,
+        400,
+        700,
+      ],
+    },
+  },
   // https://i18n.nuxtjs.org/docs/getting-started/usage
   // https://nuxtseo.com/docs/site-config/guides/i18n
   i18n: {

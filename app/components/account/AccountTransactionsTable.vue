@@ -1,7 +1,6 @@
 <template>
   <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
     <table
-      v-if="!error"
       class="table"
     >
       <thead>
@@ -14,10 +13,10 @@
           <th>Fee</th>
         </tr>
       </thead>
-      <tbody v-if="!(isFetching && isPending)">
-        <template v-if="data.result.length">
+      <tbody v-if="!(isFetching && isPending) && !error">
+        <template v-if="data && data.length">
           <tr
-            v-for="transaction in data.result"
+            v-for="transaction in data"
             :key="transaction.hash"
           >
             <td>{{ formatShortAddress(transaction.hash, 7, 4) }}</td>
@@ -25,7 +24,10 @@
             <td>{{ dayjs(new Date(Number(transaction.timeStamp) * 1000).toLocaleDateString()).fromNow() }}</td>
             <td>{{ formatShortAddress(transaction.from) }}</td>
             <td>{{ formatShortAddress(transaction.to) }}</td>
-            <td>{{ formatUnits(transaction.fee, 18) }}</td>
+            <td>
+              <!-- TODO: get the basetoken symbol to display -->
+              <CommonAmountTooltip :formatted-amount="formattedFee(transaction.fee)" />
+            </td>
           </tr>
         </template>
         <template v-else>
@@ -38,6 +40,15 @@
             </td>
           </tr>
         </template>
+      </tbody>
+      <tbody v-else-if="error">
+        <tr>
+          <td colspan="6">
+            <CommonAlertPane>
+              An error occurred with trying to load account transaction data.
+            </CommonAlertPane>
+          </td>
+        </tr>
       </tbody>
       <tbody v-else>
         <tr
@@ -53,14 +64,6 @@
         </tr>
       </tbody>
     </table>
-
-    <div
-      v-else
-      role="alert"
-      class="alert alert-error alert-soft"
-    >
-      <span>An error occurred with trying to load transaction data.</span>
-    </div>
   </div>
 </template>
 
@@ -68,18 +71,48 @@
 import { useQuery } from "@tanstack/vue-query"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { formatUnits } from "viem"
+import { type Address, formatUnits } from "viem"
 
 dayjs.extend(relativeTime)
 
 const { blockExplorerApiUrl } = useNetworkStore()
 const account = useAccount()
 
-// TODO: identify & handle error from endpoint since it's a 200
+interface Transaction {
+  blockNumber: number
+  timeStamp: number
+  hash: `0x${string}`
+  nonce: number
+  blockHash: `0x${string}`
+  transactionIndex: number
+  from: Address
+  to: Address
+  value: number
+  gas: bigint
+  gasPrice: bigint
+  isError: number
+  txreceipt_status: number
+  input: `0x${string}`
+  contractAddress: Address | null
+  cumulativeGasUsed: number
+  gasUsed: bigint
+  confirmations: number
+  fee: bigint
+  commitTxHash: `0x${string}`
+  commitChainId: number
+  proveTxHash: `0x${string}`
+  proveChainId: number
+  executeTxHash: `0x${string}`
+  executeChainId: number
+  isL1Originated: number
+  l1BatchNumber: number
+  type: number
+  methodId: `0x${string}`
+  functionName: string
+}
+
 const fetchTransactions = async () =>
   await fetch(`${blockExplorerApiUrl}/api?module=account&action=txlist&page=1&offset=10&sort=descr&endblock=99999999&startblock=0&address=${account.address.value}`)
-    .then(response =>
-      response.json())
 
 const {
   isPending, isFetching, data, error,
@@ -89,6 +122,15 @@ const {
     "transactions",
     account.address,
   ],
-  queryFn: fetchTransactions,
+  queryFn: () => fetchBlockExplorerApiData<Transaction[]>(fetchTransactions),
+  retry: blockExplorerApiRetry,
 })
+
+const formattedFee = (fee: bigint): [string, string] => {
+  const formattedUnits = formatUnits(fee, 18)
+  return [
+    truncateDecValue(formattedUnits),
+    formattedUnits,
+  ]
+}
 </script>

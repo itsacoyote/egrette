@@ -6,7 +6,7 @@
     <ConnectionView>
       <AccountCard />
       <br>
-      <AccountTransactions />
+      <AccountTransactionsTable />
     </ConnectionView>
   </div>
 </template>
