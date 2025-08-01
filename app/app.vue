@@ -1,7 +1,9 @@
 <template>
   <ClientOnly>
     <LayoutNavbar />
-    <NuxtPage />
+    <div class="m-auto max-w-[1100px] mt-6 px-4">
+      <NuxtPage />
+    </div>
   </ClientOnly>
 </template>
 

@@ -18,3 +18,11 @@ export const customMetadata = {
   url: "https://localhost:3000",
   icons: [ "https://avatars.githubusercontent.com/u/179229932" ],
 }
+
+export const customAppKitConfig: AppKitConfig = {
+  features: {
+    email: true,
+    socials: [ "google" ],
+  },
+  themeVariables: {},
+}

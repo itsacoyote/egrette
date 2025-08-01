@@ -17,7 +17,22 @@ export default defineNuxtConfig({
     "reka-ui/nuxt",
   ],
   imports: {
+    dirs: [ "~/constants" ],
     presets: [
+      {
+        from: "@reown/appkit/vue",
+        imports: [
+          "useAppKit",
+          "useAppKitAccount",
+          "useAppKitNetwork",
+          "useAppKitState",
+          "useAppKitTheme",
+          "useAppKitEvents",
+          { name: "useDisconnect", as: "useAppKitDisconnect" },
+          "useWalletInfo",
+          "useAppKitProvider",
+        ],
+      },
       {
         from: "@wagmi/vue",
         imports: [
@@ -70,10 +85,14 @@ export default defineNuxtConfig({
         {
           rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png",
         },
+        { rel: "stylesheet", href: "https://unpkg.com/web3-avatar-vue/dist/style.css" },
       ],
     },
   },
-  css: [ "~/assets/css/tailwind.css" ],
+  css: [
+    "web3-avatar-vue/dist/style.css",
+    "~/assets/css/tailwind.css",
+  ],
   colorMode: {
     classPrefix: "",
     classSuffix: "",

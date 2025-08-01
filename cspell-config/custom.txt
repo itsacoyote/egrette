@@ -1,7 +1,9 @@
+caipNetwork
 Egrette
 Nuxt
 nuxt
 nuxtjs
+reka
 reown
 sepolia
 Viem

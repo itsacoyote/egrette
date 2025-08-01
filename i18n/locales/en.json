@@ -3,5 +3,13 @@
     "name": "Egrette",
     "description": ""
   },
-  "welcome": "Welcome"
+  "navigation": {
+    "transfers": "Transfer History"
+  },
+  "index": {
+    "header": "Account Summary"
+  },
+  "transfers": {
+    "header": "Transfers"
+  }
 }

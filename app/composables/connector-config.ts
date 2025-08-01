@@ -1,17 +1,45 @@
+import { createAppKit } from "@reown/appkit/vue"
+import { WagmiAdapter } from "@reown/appkit-adapter-wagmi"
+import type { AppKitNetwork } from "@reown/appkit-common"
 import type { Chain } from "@wagmi/core/chains"
-import { createConfig } from "@wagmi/vue"
-import { walletConnect } from "@wagmi/vue/connectors"
 import { isNil } from "es-toolkit"
-import { fallback, http } from "viem"
 
-import { customMetadata } from "~~/custom/app-config"
+import { customAppKitConfig, customMetadata } from "~~/custom/app-config"
 
-let wagmiConfig: unknown
 const metadata = customMetadata ?? {
   name: "Egrette",
   description: "Egrette - simple web dapp",
   url: "https://egrette.xyz",
   icons: [ "https://egrette.xyz/egrette-logo.svg" ],
+}
+
+const appKitConfiguration: AppKitConfig = {
+  enableWalletConnect: true,
+  enableNetworkSwitch: false,
+  enableWalletGuide: false,
+  featuredWalletIds: [ "c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96" ],
+  ...customAppKitConfig,
+  features: {
+    swaps: false,
+    onramp: false,
+    socials: false,
+    email: false,
+    analytics: false,
+    connectMethodsOrder: [
+      "email",
+      "social",
+      "wallet",
+    ],
+    ...customAppKitConfig.features,
+  },
+  themeVariables: {
+    "--w3m-font-family": "var(--font-sans)",
+    "--w3m-accent": "var(--accent-primary)",
+    "--w3m-color-mix": "var(--color-neutral-content)",
+    "--w3m-color-mix-strength": 30,
+    "--w3m-border-radius-master": "var(--radius-box)",
+    ...customAppKitConfig.themeVariables,
+  },
 }
 
 export const useConnectorConfig = () => {
@@ -30,28 +58,28 @@ export const useConnectorConfig = () => {
       }
       return acc
     }, [])
-  const transports = allChains.map(chain => [
-    chain.id,
-    fallback(chain.rpcUrls.default.http.map(url => http(url, { batch: true }))),
-  ])
 
   const defaultNetwork = allChains.find(chain => chain.id === appConfig.defaultNetwork.id)
   if (isNil(defaultNetwork)) {
     throw new Error("Default network must be included in list of networks in appConfig")
   }
 
-  if (isNil(wagmiConfig)) {
-    wagmiConfig = createConfig({
-      chains: allChains as [Chain, ...Chain[]],
-      connectors: [ walletConnect({ projectId, metadata }) ],
-      transports: Object.fromEntries(transports),
-    })
-  }
+  const wagmiAdapter = new WagmiAdapter({
+    networks: allChains,
+    projectId,
+  })
+
+  createAppKit({
+    adapters: [ wagmiAdapter ],
+    networks: allChains as [AppKitNetwork, ...AppKitNetwork[]],
+    metadata: metadata,
+    projectId,
+    defaultNetwork: defaultNetwork,
+    ...appKitConfiguration,
+  })
 
   return {
     allChains,
-    defaultNetwork,
-    projectId,
-    wagmiConfig,
+    wagmiAdapter,
   }
 }

@@ -43,7 +43,9 @@ export default withNuxt({
     ],
     "@stylistic/max-len": [
       "error",
-      { code: 120 },
+      {
+        code: 120, ignoreStrings: true, ignoreTemplateLiterals: true,
+      },
     ],
     "@stylistic/no-floating-decimal": "error",
     "@stylistic/object-curly-newline": [

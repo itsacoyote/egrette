@@ -1,9 +1,7 @@
-export const useConnectorStore = defineStore("connector", () => {
-  // const {
-  //   defaultNetwork, projectId, wagmiConfig,
-  // } = useConnectorConfig()
+import { acceptHMRUpdate, defineStore } from "pinia"
 
-  return { }
+export const useConnectorStore = defineStore("connector", () => {
+  return {}
 })
 
 if (import.meta.hot) {
