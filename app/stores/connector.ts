@@ -1,31 +1,20 @@
-// import { useQuery, useQueryClient } from "@tanstack/vue-query"
-import { isNull } from "es-toolkit"
 import { acceptHMRUpdate, defineStore } from "pinia"
 
 export const useConnectorStore = defineStore("connector", () => {
-  const isConnected = ref<boolean | null>(null)
-  // const connections = useConnections()
+  // const isConnected = ref<boolean | null>(null)
   const account = useAccount()
-  const address = ref<null | `0x${string}`>(null)
+  const isConnected = computed(() => account.isConnected.value)
 
-  watch(
-    () => account, (account) => {
-      if (isNull(address.value)) {
-        address.value = account.address.value!
-      } else if (account.address.value !== address.value) {
-        // invalidate queries
-        // const queryClient = useQueryClient()
-
-        // queryClient.invalidateQueries({ queryKey: [ "account" ] })
-      }
-      if (account.isDisconnected.value) {
-        isConnected.value = false
-      }
-      if (account.isConnected.value) {
-        isConnected.value = true
-      }
-    }, { deep: true },
-  )
+  // watch(
+  //   () => account, (account) => {
+  //     if (account.isDisconnected.value) {
+  //       isConnected.value = false
+  //     }
+  //     if (account.isConnected.value) {
+  //       isConnected.value = true
+  //     }
+  //   }, { deep: true },
+  // )
 
   // watch(
   //   () => connections.value, () => {

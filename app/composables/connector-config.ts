@@ -1,8 +1,7 @@
 import { createAppKit } from "@reown/appkit/vue"
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi"
 import type { AppKitNetwork } from "@reown/appkit-common"
-import type { Chain } from "@wagmi/core/chains"
-import { isNil } from "es-toolkit"
+import { isNil, uniq } from "es-toolkit"
 
 import { customAppKitConfig, customMetadata } from "~~/custom/app-config"
 
@@ -47,21 +46,30 @@ export const useConnectorConfig = () => {
   const appConfig = useAppConfig()
   const projectId = runtimeConfig.public.reownProjectId
 
-  const allChains = [
+  const allChains: ZkSyncNetwork[] = [
     ...appConfig.networks,
     ...appConfig.networks.map(network => network.l1Network),
   ]
-    .filter((chain): chain is Chain => !!chain && (chain as Chain).id !== undefined)
-    .reduce<Chain[]>((acc, chain) => {
+    .filter((chain): chain is ZkSyncNetwork => !!chain && (chain as ZkSyncNetwork).id !== undefined)
+    .reduce<ZkSyncNetwork[]>((acc, chain) => {
       if (!acc.some(c => c.id === chain.id)) {
         acc.push(chain)
       }
       return acc
     }, [])
 
+  const allChainKeys = allChains.map(chain => chain.key)
+  const allChainKeysDedupe = uniq(allChainKeys)
+  if (allChainKeysDedupe.length !== allChainKeys.length) {
+    throw new Error("All defined networks must have unique key names.")
+  }
+
   const defaultNetwork = allChains.find(chain => chain.id === appConfig.defaultNetwork.id)
   if (isNil(defaultNetwork)) {
-    throw new Error("Default network must be included in list of networks in appConfig")
+    throw new Error("Default network must be included in list of networks in appConfig.")
+  }
+  if (isNil(defaultNetwork.l1Network)) {
+    throw new Error("Default network cannot be an L1 network.")
   }
 
   const wagmiAdapter = new WagmiAdapter({
@@ -71,7 +79,7 @@ export const useConnectorConfig = () => {
 
   createAppKit({
     adapters: [ wagmiAdapter ],
-    networks: allChains as [AppKitNetwork, ...AppKitNetwork[]],
+    networks: allChains as unknown as [AppKitNetwork, ...AppKitNetwork[]],
     metadata: metadata,
     projectId,
     defaultNetwork: defaultNetwork,

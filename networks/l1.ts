@@ -1,9 +1,11 @@
 import { mainnet, sepolia } from "@wagmi/core/chains"
 
-export const l1Mainnet = {
+export const l1Mainnet: ZkSyncNetwork = {
   ...mainnet,
+  testnet: false,
+  l1Network: true,
   name: "Ethereum",
-  network: "mainnet",
+  key: "ethereum-mainnet",
   rpcUrls: {
     default: {
       http: [
@@ -14,9 +16,12 @@ export const l1Mainnet = {
   },
 }
 
-export const l1Sepolia = {
+export const l1Sepolia: ZkSyncNetwork = {
   ...sepolia,
+  testnet: true,
+  l1Network: true,
   name: "Ethereum Sepolia Testnet",
+  key: "ethereum-sepolia",
   rpcUrls: {
     default: {
       http: [

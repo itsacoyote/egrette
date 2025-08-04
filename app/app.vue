@@ -9,4 +9,8 @@
 
 <script setup lang="ts">
 useConnectorStore()
+useAccountStore()
+
+const { l1Networks } = useNetworkStore()
+console.log("djkl", l1Networks)
 </script>

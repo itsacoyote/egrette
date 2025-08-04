@@ -4,7 +4,7 @@
       {{ $t('index.header') }}
     </h1>
     <ConnectionView>
-      <AccountCard />
+      <AccountSummaryCard />
       <br>
       <AccountTransactionsTable />
     </ConnectionView>

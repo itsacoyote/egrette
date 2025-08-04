@@ -6,7 +6,7 @@ import { l1Mainnet, l1Sepolia } from "./l1"
 export const zksyncMainnet: ZkSyncNetwork = {
   ...zksync,
   id: 324,
-  key: "mainnet",
+  key: "era-mainnet",
   name: "ZKsync Era",
   rpcUrls: { default: { http: [ "https://mainnet.era.zksync.io" ] } },
   blockExplorers: {
@@ -16,13 +16,14 @@ export const zksyncMainnet: ZkSyncNetwork = {
       apiUrl: "https://block-explorer-api.mainnet.zksync.io",
     },
   },
+  testnet: false,
   l1Network: l1Mainnet,
 }
 
 export const zksyncSepolia: ZkSyncNetwork = {
   ...zksyncSepoliaTestnet,
   id: 300,
-  key: "sepolia",
+  key: "era-sepolia",
   name: "ZKsync Era Sepolia",
   rpcUrls: { default: { http: [ "https://sepolia.era.zksync.dev" ] } },
   blockExplorers: {
@@ -38,7 +39,7 @@ export const zksyncSepolia: ZkSyncNetwork = {
 export const zksyncStaging: ZkSyncNetwork = {
   ...zksyncSepoliaTestnet,
   id: 270,
-  key: "stage",
+  key: "era-stage",
   name: "ZKsync Stage",
   rpcUrls: { default: { http: [ "https://z2-dev-api.zksync.dev" ] } },
   blockExplorers: {
@@ -54,7 +55,7 @@ export const zksyncStaging: ZkSyncNetwork = {
 
 export const zksyncGateway: ZkSyncNetwork = {
   id: 9075,
-  key: "gateway",
+  key: "gateway-mainnet",
   name: "ZKsync Gateway",
   rpcUrls: { default: { http: [ "https://rpc.era-gateway-mainnet.zksync.dev" ] } },
   blockExplorers: {
@@ -69,6 +70,7 @@ export const zksyncGateway: ZkSyncNetwork = {
     symbol: "ZK",
     decimals: 18,
   },
+  testnet: false,
   l1Network: l1Mainnet,
   nativeTokenBridgingOnly: true,
 }

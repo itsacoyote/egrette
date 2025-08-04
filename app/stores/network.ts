@@ -1,14 +1,21 @@
 import { getChainId } from "@wagmi/core"
+import { isBoolean } from "es-toolkit"
+import { isObject } from "es-toolkit/compat"
 import { acceptHMRUpdate, defineStore } from "pinia"
-import type { Chain } from "viem"
+
+import type { L1Network, ZkSyncNetwork } from "~~/shared/types/networks"
 
 export const useNetworkStore = defineStore("network", {
-  state: () => ({}),
+  state: () => ({ testnet: false }),
   getters: {
-    activeChain(): Chain {
+    activeNetwork(): ZkSyncNetwork {
       const chainId = useChainId()
       const chains = useChains()
-      return chains.value.find(chain => chain.id === chainId.value)!
+      return chains.value.find(chain => chain.id === chainId.value)! as ZkSyncNetwork
+    },
+    activeNetworkL1(): L1Network | null {
+      const l1Network = this.activeNetwork.l1Network
+      return isBoolean(l1Network) ? null : l1Network
     },
     blockExplorerUrl(): string {
       const networkData = useAppKitNetwork()
@@ -22,8 +29,24 @@ export const useNetworkStore = defineStore("network", {
       const { wagmiAdapter } = useConnectorConfig()
       return getChainId(wagmiAdapter.wagmiConfig)
     },
+    zkSyncNetworks(state): ZkSyncNetwork[] {
+      const chains = useChains()
+      return chains.value
+        .filter(chain => isObject((chain as ZkSyncNetwork).l1Network))
+        .filter(chain => chain.testnet === state.testnet) as ZkSyncNetwork[]
+    },
+    l1Networks(state): L1Network[] {
+      const chains = useChains()
+      return chains.value
+        .filter(chain => isBoolean((chain as ZkSyncNetwork).l1Network))
+        .filter(chain => chain.testnet === state.testnet) as L1Network[]
+    },
   },
-  actions: {},
+  actions: {
+    toggleTestnet() {
+      this.testnet = !this.testnet
+    },
+  },
 })
 
 if (import.meta.hot) {
