@@ -2,7 +2,7 @@
   <Tooltip.Provider v-if="isTruncated">
     <Tooltip.Root>
       <Tooltip.Trigger>
-        <span>{{ formattedAmount[0] }} {{ symbol }}</span>
+        <span class="text-md">{{ formattedAmount[0] }} {{ symbol }}</span>
       </Tooltip.Trigger>
       <Tooltip.Portal>
         <Tooltip.Content

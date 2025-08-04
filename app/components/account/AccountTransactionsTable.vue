@@ -68,63 +68,15 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from "@tanstack/vue-query"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { type Address, formatUnits } from "viem"
+import { formatUnits } from "viem"
 
 dayjs.extend(relativeTime)
 
-const { blockExplorerApiUrl } = useNetworkStore()
-const account = useAccount()
-
-interface Transaction {
-  blockNumber: number
-  timeStamp: number
-  hash: `0x${string}`
-  nonce: number
-  blockHash: `0x${string}`
-  transactionIndex: number
-  from: Address
-  to: Address
-  value: number
-  gas: bigint
-  gasPrice: bigint
-  isError: number
-  txreceipt_status: number
-  input: `0x${string}`
-  contractAddress: Address | null
-  cumulativeGasUsed: number
-  gasUsed: bigint
-  confirmations: number
-  fee: bigint
-  commitTxHash: `0x${string}`
-  commitChainId: number
-  proveTxHash: `0x${string}`
-  proveChainId: number
-  executeTxHash: `0x${string}`
-  executeChainId: number
-  isL1Originated: number
-  l1BatchNumber: number
-  type: number
-  methodId: `0x${string}`
-  functionName: string
-}
-
-const fetchTransactions = async () =>
-  await fetch(`${blockExplorerApiUrl}/api?module=account&action=txlist&page=1&offset=10&sort=descr&endblock=99999999&startblock=0&address=${account.address.value}`)
-
 const {
   isPending, isFetching, data, error,
-} = useQuery({
-  queryKey: [
-    "account",
-    "transactions",
-    account.address,
-  ],
-  queryFn: () => fetchBlockExplorerApiData<Transaction[]>(fetchTransactions),
-  retry: blockExplorerApiRetry,
-})
+} = useQueryTransactions()
 
 const formattedFee = (fee: bigint): [string, string] => {
   const formattedUnits = formatUnits(fee, 18)

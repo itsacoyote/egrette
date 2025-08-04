@@ -1,41 +1,60 @@
 <template>
   <ul class="list bg-base-100 rounded-box shadow-md">
-    <template v-if="isFetching && isPending">
+    <template v-if="inProgress">
       <li class="list-row">
         <div><div class="skeleton h-4 w-15" /></div>
         <div><div class="skeleton h-4 w-15" /></div>
         <div><div class="skeleton h-4 w-15" /></div>
       </li>
     </template>
-    <template v-else-if="error">
+    <template v-else-if="hasError">
       Error!
     </template>
     <template v-else>
-      <template v-if="filteredData && filteredData.length">
+      <template v-if="data">
+        <li class="list-row">
+          <div class="h-full text-xl">
+            <span class="align-sub inline-block h-full">Balance</span>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl">$</span>
+            <span class="text-4xl">{{ Math.floor(totalBalance * 100) / 100 }}</span>
+          </div>
+        </li>
         <li
-          v-for="asset in filteredData"
-          :key="asset.TokenAddress"
+          v-for="asset in data"
+          :key="asset.l2Address"
           class="list-row"
         >
           <div>
+            <img
+              v-if="asset.iconUrl"
+              :src="asset.iconUrl"
+              class="w-12 h-12 h-full"
+            >
             <Icon
+              v-else
               name="fluent:circle-highlight-24-regular"
               class="h-full w-12 h-12 text-slate-400"
             />
           </div>
           <div>
             <div class="text-lg">
-              {{ asset.TokenSymbol }}
+              {{ asset.symbol }}
             </div>
             <div class="text-sm text-neutral-700">
-              {{ asset.TokenName }}
+              {{ asset.name }}
             </div>
           </div>
           <div class="text-right">
-            <div>
+            <div class="flex flex-col">
               <CommonAmountTooltip
-                :formatted-amount="prettyValue(asset.TokenQuantity, asset.TokenDivisor)"
+                :formatted-amount="prettyValue(asset.amount, asset.decimals)"
               />
+              <span
+                v-if="asset.usdBalance"
+                class="text-md text-neutral-500"
+              >{{ asset.usdBalance }}</span>
             </div>
           </div>
         </li>
@@ -51,41 +70,67 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from "@tanstack/vue-query"
-
-const { blockExplorerApiUrl } = useNetworkStore()
-const account = useAccount()
-
-interface TokenBalance {
-  TokenAddress: `0x${string}`
-  TokenName: string
-  TokenSymbol: string
-  TokenQuantity: bigint
-  TokenDivisor: number
-}
-
-const fetchAssets = async () =>
-  await fetch(`${blockExplorerApiUrl}/api?module=account&action=addresstokenbalance&address=${account.address.value}`)
+import { isNil } from "es-toolkit"
 
 const {
-  isPending, isFetching, data, error,
-} = useQuery({
-  queryKey: [
-    "account",
-    "assets",
-    account.address,
-  ],
-  queryFn: () => fetchBlockExplorerApiData<TokenBalance[]>(fetchAssets),
-  retry: blockExplorerApiRetry,
+  isPending: assetsPending, isFetching: assetsFetching, data: assetsData, error: assetsError,
+} = useQueryAssets()
+
+const {
+  isPending: tokensPending, isFetching: tokensFetching, data: tokensData, error: tokensError,
+} = useQueryTokens()
+
+const inProgress = computed(() => {
+  const loadingAssets = assetsPending.value && assetsFetching.value
+  const loadingTokens = tokensPending.value && tokensFetching.value
+
+  return loadingAssets && loadingTokens
 })
 
-// Currently the API returns ERC721s along with ERC20s which
-// is unintended behavior. This filters tokens returned without a name
-// which includes ERC721s
-const filteredData = computed(() => {
-  if (data.value) {
-    return data.value.filter(token => token.TokenName !== "")
+const hasError = computed(() => {
+  return assetsError.value || tokensError.value
+})
+
+interface TokenInfo {
+  l2Address: `0x${string}`
+  name: string
+  symbol: string
+  amount: bigint
+  decimals: number
+  price: number | undefined
+  liquidity: number | undefined
+  iconUrl: string | undefined
+  usdBalance: string | null
+}
+const data = ref<TokenInfo[] | null>(null)
+const totalBalance = ref<number>(0)
+watch([
+  () => tokensData.value,
+  () => assetsData.value,
+], () => {
+  if (tokensData.value && assetsData.value) {
+    data.value = assetsData.value.map((asset) => {
+      const usdBalance = tokensData.value[asset.l2Address]?.usdPrice
+        ? tokenBalancePriceRaw(
+          asset.amount, asset.decimals, tokensData.value[asset.l2Address]!.usdPrice,
+        )
+        : null
+
+      if (!isNil(usdBalance)) {
+        totalBalance.value += usdBalance
+      }
+      return {
+        ...asset,
+        price: tokensData.value[asset.l2Address]?.usdPrice,
+        liquidity: tokensData.value[asset.l2Address]?.liquidity,
+        iconUrl: tokensData.value[asset.l2Address]?.iconURL,
+        usdBalance: tokensData.value[asset.l2Address]?.usdPrice
+          ? tokenBalancePriceFormatted(
+            asset.amount, asset.decimals, tokensData.value[asset.l2Address]!.usdPrice,
+          )
+          : null,
+      }
+    })
   }
-  return data.value
 })
 </script>

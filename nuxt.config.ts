@@ -17,7 +17,10 @@ export default defineNuxtConfig({
     "reka-ui/nuxt",
   ],
   imports: {
-    dirs: [ "~/constants" ],
+    dirs: [
+      "constants",
+      "composables/**",
+    ],
     presets: [
       {
         from: "@reown/appkit/vue",
