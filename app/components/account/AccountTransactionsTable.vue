@@ -21,7 +21,7 @@
           >
             <td>{{ formatShortAddress(transaction.hash, 7, 4) }}</td>
             <td>{{ transaction.methodId }}</td>
-            <td>{{ dayjs(new Date(Number(transaction.timeStamp) * 1000).toLocaleDateString()).fromNow() }}</td>
+            <td>{{ useTimeAgo(+transaction.timeStamp) }}</td>
             <td>{{ formatShortAddress(transaction.from) }}</td>
             <td>{{ formatShortAddress(transaction.to) }}</td>
             <td>

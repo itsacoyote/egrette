@@ -27,11 +27,11 @@
           class="list-row"
         >
           <div>
-            <img
+            <NuxtImg
               v-if="asset.iconUrl"
               :src="asset.iconUrl"
               class="w-12 h-12 h-full"
-            >
+            />
             <Icon
               v-else
               name="fluent:circle-highlight-24-regular"

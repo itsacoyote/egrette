@@ -9,11 +9,11 @@ interface TokenBalanceData {
 }
 
 export const useQueryAssets = () => {
-  const { blockExplorerApiUrl } = useNetworkStore()
+  const networkStore = useNetworkStore()
   const account = useAccount()
 
   const fetchAssets = async () =>
-    await fetch(`${blockExplorerApiUrl}/api?module=account&action=addresstokenbalance&address=${account.address.value}`)
+    await fetch(`${networkStore.blockExplorerApiUrl}/api?module=account&action=addresstokenbalance&address=${account.address.value}`)
 
   const formatData = (data: TokenBalanceData[]) => {
     return data.map(data => ({
@@ -30,6 +30,7 @@ export const useQueryAssets = () => {
       "account",
       "assets",
       account.address,
+      networkStore.blockExplorerApiUrl,
     ],
     // Currently the API returns ERC721s along with ERC20s which
     // is unintended behavior. This filters tokens returned without a name

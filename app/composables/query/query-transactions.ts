@@ -35,17 +35,18 @@ export interface Transaction {
 }
 
 export const useQueryTransactions = () => {
-  const { blockExplorerApiUrl } = useNetworkStore()
+  const networkStore = useNetworkStore()
   const account = useAccount()
 
   const fetchTransactions = async () =>
-    await fetch(`${blockExplorerApiUrl}/api?module=account&action=txlist&page=1&offset=10&sort=descr&endblock=99999999&startblock=0&address=${account.address.value}`)
+    await fetch(`${networkStore.blockExplorerApiUrl}/api?module=account&action=txlist&page=1&offset=10&sort=descr&endblock=99999999&startblock=0&address=${account.address.value}`)
 
   return useQuery({
     queryKey: [
       "account",
       "transactions",
       account.address,
+      networkStore.blockExplorerApiUrl,
     ],
     queryFn: () => fetchBlockExplorerApiData<Transaction[]>(fetchTransactions),
     retry: blockExplorerApiRetry,
