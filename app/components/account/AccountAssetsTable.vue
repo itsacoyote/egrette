@@ -30,12 +30,12 @@
             <NuxtImg
               v-if="asset.iconUrl"
               :src="asset.iconUrl"
-              class="w-12 h-12 h-full"
+              class="w-12 h-full"
             />
             <Icon
               v-else
               name="fluent:circle-highlight-24-regular"
-              class="h-full w-12 h-12 text-slate-400"
+              class="h-full w-12 text-slate-400"
             />
           </div>
           <div>
@@ -104,33 +104,35 @@ interface TokenInfo {
 }
 const data = ref<TokenInfo[] | null>(null)
 const totalBalance = ref<number>(0)
-watch([
-  () => tokensData.value,
-  () => assetsData.value,
-], () => {
-  if (tokensData.value && assetsData.value) {
-    data.value = assetsData.value.map((asset) => {
-      const usdBalance = tokensData.value[asset.l2Address]?.usdPrice
-        ? tokenBalancePriceRaw(
-          asset.amount, asset.decimals, tokensData.value[asset.l2Address]!.usdPrice,
-        )
-        : null
-
-      if (!isNil(usdBalance)) {
-        totalBalance.value += usdBalance
-      }
-      return {
-        ...asset,
-        price: tokensData.value[asset.l2Address]?.usdPrice,
-        liquidity: tokensData.value[asset.l2Address]?.liquidity,
-        iconUrl: tokensData.value[asset.l2Address]?.iconURL,
-        usdBalance: tokensData.value[asset.l2Address]?.usdPrice
-          ? tokenBalancePriceFormatted(
+watch(
+  [
+    () => tokensData.value,
+    () => assetsData.value,
+  ], () => {
+    if (tokensData.value && assetsData.value) {
+      data.value = assetsData.value.map((asset) => {
+        const usdBalance = tokensData.value[asset.l2Address]?.usdPrice
+          ? tokenBalancePriceRaw(
             asset.amount, asset.decimals, tokensData.value[asset.l2Address]!.usdPrice,
           )
-          : null,
-      }
-    })
-  }
-})
+          : null
+
+        if (!isNil(usdBalance)) {
+          totalBalance.value += usdBalance
+        }
+        return {
+          ...asset,
+          price: tokensData.value[asset.l2Address]?.usdPrice,
+          liquidity: tokensData.value[asset.l2Address]?.liquidity,
+          iconUrl: tokensData.value[asset.l2Address]?.iconURL,
+          usdBalance: tokensData.value[asset.l2Address]?.usdPrice
+            ? tokenBalancePriceFormatted(
+              asset.amount, asset.decimals, tokensData.value[asset.l2Address]!.usdPrice,
+            )
+            : null,
+        }
+      })
+    }
+  }, { immediate: true },
+)
 </script>

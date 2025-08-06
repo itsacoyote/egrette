@@ -6,6 +6,5 @@ Various todos to take care of at some point.
   - can't test this until we have network switching working
 - Queries of block explorer need to be only for L2.
 - show history of transfers related to token on assets page?
-- Assets don't reload after navigating back to the page.
 - Need to add network switching
 - Queries need to use active network selected, not from wallet

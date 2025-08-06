@@ -1,13 +1,10 @@
 <template>
   <div>
     <h1 class="text-3xl mb-4">
-      {{ $t('index.header') }}
+      {{ $t("transactions.header") }}
     </h1>
     <ConnectionView>
-      <AccountSummaryCard />
+      <AccountTransactionsTable />
     </ConnectionView>
   </div>
 </template>
-
-<script setup>
-</script>

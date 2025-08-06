@@ -5,7 +5,8 @@
   },
   "navigation": {
     "transfers": "Transfer History",
-    "assets": "Assets"
+    "assets": "Assets",
+    "transactions": "Transactions"
   },
   "index": {
     "header": "Account Summary"
@@ -15,5 +16,8 @@
   },
   "assets": {
     "header": "Assets"
+  },
+  "transactions": {
+    "header": "Transactions"
   }
 }

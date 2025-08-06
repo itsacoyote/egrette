@@ -1,11 +1,17 @@
+import { isBoolean } from "es-toolkit"
+
 export const useAppStateStore = defineStore("appState", {
-  state: () => ({}),
-  getters: {
-    isLargeScreen(): ComputedRef<boolean> {
-      return useMediaQuery("(min-width: 960px)")
+  state: () => ({ isProfileDrawerOpen: false }),
+  getters: {},
+  actions: {
+    toggleProfileDrawer(state?: boolean) {
+      if (isBoolean(state)) {
+        this.isProfileDrawerOpen = state
+      } else {
+        this.isProfileDrawerOpen = !this.isProfileDrawerOpen
+      }
     },
   },
-  actions: {},
 })
 
 if (import.meta.hot) {

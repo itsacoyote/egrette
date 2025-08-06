@@ -4,6 +4,7 @@ export const useConnectorStore = defineStore("connector", () => {
   // const isConnected = ref<boolean | null>(null)
   const account = useAccount()
   const isConnected = computed(() => account.isConnected.value)
+  const appState = useAppStateStore()
 
   // watch(
   //   () => account, (account) => {
@@ -21,14 +22,14 @@ export const useConnectorStore = defineStore("connector", () => {
   //     isConnected.value = connections.value.length > 0
   //   }, { deep: true },
   // )
-  // useAccountEffect({
-  //   onConnect() {
-  //     isConnected.value = true
-  //   },
-  //   onDisconnect() {
-  //     isConnected.value = false
-  //   },
-  // })
+  useAccountEffect({
+    onConnect() {
+
+    },
+    onDisconnect() {
+      appState.toggleProfileDrawer(false)
+    },
+  })
 
   return { isConnected }
 })

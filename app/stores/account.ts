@@ -5,7 +5,7 @@ import { normalize } from "viem/ens"
 export const useAccountStore = defineStore("account", () => {
   const { wagmiAdapter } = useConnectorConfig()
   const account = useAccount()
-  const address = computed(() => account.address.value)
+  const address = computed(() => account.address)
   const ensAccount = reactive<{ name: string | null, avatar: string | null }>({
     name: null,
     avatar: null,
