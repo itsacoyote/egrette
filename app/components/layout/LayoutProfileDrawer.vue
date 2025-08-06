@@ -30,8 +30,8 @@
             <div class="card-body flex items-center justify-between flex-row">
               <div>
                 <NuxtImg
-                  v-if="connections.length>0"
-                  :src="connections[0].connector.icon"
+                  v-if="connections.length > 0"
+                  :src="connections[0]!.connector.icon"
                   class="h-6 w-6 inline-block"
                 />
                 <span
@@ -71,6 +71,20 @@
             </div>
           </div>
         </li>
+        <li class="mt-4">
+          <div class="mb-4 px-2">
+            <label class="label">
+              <input
+                type="checkbox"
+                class="toggle toggle-success"
+                :checked="networkStore.testnet"
+                @change="networkStore.toggleTestnet()"
+              >
+              Display testnet networks
+            </label>
+          </div>
+          <CommonNetworkSelect class="w-full" />
+        </li>
       </ul>
     </div>
   </div>
@@ -81,11 +95,11 @@ const appState = useAppStateStore()
 const toggleDrawer = useTemplateRef("drawer-toggle")
 
 onMounted(() => {
-  toggleDrawer.value.checked = appState.isProfileDrawerOpen
+  toggleDrawer.value!.checked = appState.isProfileDrawerOpen
 })
 
 watch(() => appState.isProfileDrawerOpen, () => {
-  toggleDrawer.value.checked = appState.isProfileDrawerOpen
+  toggleDrawer.value!.checked = appState.isProfileDrawerOpen
 })
 
 const { disconnect } = useDisconnect()
@@ -103,4 +117,6 @@ const copyAddress = () => {
     navigator.clipboard.writeText(address.value)
   }
 }
+
+const networkStore = useNetworkStore()
 </script>

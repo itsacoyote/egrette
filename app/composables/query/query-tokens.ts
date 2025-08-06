@@ -51,7 +51,7 @@ export const useQueryTokens = () => {
   return useQuery<{ [k in string]: Token }>({
     queryKey: [
       "tokens",
-      networkStore.blockExplorerApiUrl,
+      () => networkStore.blockExplorerApiUrl,
     ],
     queryFn: fetchData,
     retry: blockExplorerApiRetry,

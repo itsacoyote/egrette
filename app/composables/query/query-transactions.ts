@@ -46,7 +46,7 @@ export const useQueryTransactions = () => {
       "account",
       "transactions",
       account.address,
-      networkStore.blockExplorerApiUrl,
+      () => networkStore.blockExplorerApiUrl,
     ],
     queryFn: () => fetchBlockExplorerApiData<Transaction[]>(fetchTransactions),
     retry: blockExplorerApiRetry,

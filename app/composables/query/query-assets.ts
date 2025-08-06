@@ -30,7 +30,7 @@ export const useQueryAssets = () => {
       "account",
       "assets",
       account.address,
-      networkStore.blockExplorerApiUrl,
+      () => networkStore.blockExplorerApiUrl,
     ],
     // Currently the API returns ERC721s along with ERC20s which
     // is unintended behavior. This filters tokens returned without a name

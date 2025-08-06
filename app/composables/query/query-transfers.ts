@@ -38,7 +38,7 @@ export const useQueryTransfers = () => {
       "account",
       "transfers",
       account.address,
-      networkStore.blockExplorerApiUrl,
+      () => networkStore.blockExplorerApiUrl,
     ],
     queryFn: () => fetchBlockExplorerApiAddressData<Transfer[]>(fetchTransfers)
       .then(groupByTransactionHash),
