@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-const { chainId } = useNetworkStore()
+const { chainId } = storeToRefs(useNetworkStore())
 
 const { address } = storeToRefs(useAccountStore())
 const { ensAccount } = useAccountStore()

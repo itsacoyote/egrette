@@ -1,8 +1,11 @@
 <template>
   <div>
-    <h1 class="text-3xl mb-4">
+    <LayoutPageHeader>
       {{ $t('assets.header') }}
-    </h1>
+      <template #right-col>
+        <CommonNetworkSelect />
+      </template>
+    </LayoutPageHeader>
 
     <ConnectionView>
       <AccountAssetsTable />
