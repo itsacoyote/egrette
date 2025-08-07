@@ -2,11 +2,11 @@
   <Tooltip.Provider v-if="isTruncated">
     <Tooltip.Root>
       <Tooltip.Trigger>
-        <span class="text-md">{{ formattedAmount[0] }} {{ symbol }}</span>
+        <span class="text-base">{{ formattedAmount[0] }} {{ symbol }}</span>
       </Tooltip.Trigger>
       <Tooltip.Portal>
         <Tooltip.Content
-          class=" bg-white px-3 py-2 border border-gray-200 shadow-sm rounded-sm text-sm"
+          class=" bg-white px-3 py-2 border border-gray-200 shadow-sm rounded-sm text-base"
           :side-offset="5"
         >
           {{ formattedAmount[1] }} {{ symbol }}

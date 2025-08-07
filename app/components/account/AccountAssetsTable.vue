@@ -50,10 +50,11 @@
             <div class="flex flex-col">
               <CommonAmountTooltip
                 :formatted-amount="prettyValue(asset.amount, asset.decimals)"
+                class="text-lg"
               />
               <span
                 v-if="asset.usdBalance"
-                class="text-md text-neutral-500"
+                class="text-base text-neutral-500"
               >{{ asset.usdBalance }}</span>
             </div>
           </div>

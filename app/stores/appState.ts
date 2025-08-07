@@ -1,17 +1,21 @@
 import { isBoolean } from "es-toolkit"
 
-export const useAppStateStore = defineStore("appState", {
-  state: () => ({ isProfileDrawerOpen: false }),
-  getters: {},
-  actions: {
-    toggleProfileDrawer(state?: boolean) {
-      if (isBoolean(state)) {
-        this.isProfileDrawerOpen = state
-      } else {
-        this.isProfileDrawerOpen = !this.isProfileDrawerOpen
-      }
-    },
-  },
+export const useAppStateStore = defineStore("appState", () => {
+  const isProfileDrawerOpen = ref<boolean>(false)
+
+  function toggleProfileDrawer(state?: boolean) {
+    if (isBoolean(state)) {
+      isProfileDrawerOpen.value = state
+    } else {
+      isProfileDrawerOpen.value = !isProfileDrawerOpen.value
+    }
+  }
+
+  return {
+    isProfileDrawerOpen,
+
+    toggleProfileDrawer,
+  }
 })
 
 if (import.meta.hot) {

@@ -1,6 +1,9 @@
 <template>
   <li class="list-row">
-    <slot />
+    <AccountTransferIcon :transfer="transfer" />
+    <div class="flex sm:flex-row flex-col justify-between text-base">
+      <slot />
+    </div>
     <div>
       <NuxtLink
         target="_blank"

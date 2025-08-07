@@ -7,9 +7,9 @@
       </template>
     </LayoutPageHeader>
 
-    <ConnectionView>
+    <CommonConnectionView>
       <AccountSummaryCard />
-    </ConnectionView>
+    </CommonConnectionView>
   </div>
 </template>
 

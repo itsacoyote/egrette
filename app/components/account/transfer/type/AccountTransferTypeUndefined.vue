@@ -1,7 +1,6 @@
 <template>
-  <AccountTransferIcon :transfer="transfer" />
   <div>
-    <div class="text-lg">
+    <div>
       {{ capitalize(transfer.type) }}
     </div>
     <AccountTransferDate :date="transfer.timestamp" />

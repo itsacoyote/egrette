@@ -1,7 +1,6 @@
 <template>
-  <AccountTransferIcon :transfer="transfer" />
   <div>
-    <div class="text-lg">
+    <div>
       Bridged
     </div>
     <AccountTransferDate :date="transfer.timestamp" />

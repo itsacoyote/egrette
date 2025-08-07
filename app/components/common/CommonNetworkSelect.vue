@@ -2,35 +2,38 @@
 <template>
   <Select.Root v-model="networkStore.activeNetwork.id">
     <Select.Trigger
-      class="inline-flex w-full items-center justify-between rounded-lg px-[15px] text-xs leading-none h-[35px] gap-[5px] bg-white text-grass11 hover:bg-stone-50 border shadow-sm focus:shadow-[0_0_0_2px] focus:shadow-black data-[placeholder]:text-green9 outline-none cursor-pointer"
+      class="select w-full outline-none! cursor-pointer border-base-300"
       aria-label="Customise options"
     >
-      <Select.Value :placeholder="networkStore.activeNetwork.name" />
-      <Icon
-        name="fluent:chevron-down-16-regular"
-        class="h-3.5 w-3.5"
+      <Select.Value
+        :placeholder="networkStore.activeNetwork.name"
+        class="px-2 text-lg"
+        :class="{ 'text-purple-600': networkStore.testnet }"
       />
     </Select.Trigger>
 
     <Select.Portal>
       <Select.Content
-        class="min-w-[160px] bg-white rounded-lg border shadow-sm will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-[100]"
+        class="min-w-[330px] bg-base-100 dropdown-content rounded-box shadow-sm will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-[100] pb-3"
         :side-offset="5"
+        position="popper"
+        align="end"
       >
-        <Select.ScrollUpButton class="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+        <Select.ScrollUpButton class="flex items-center justify-center h-[32px] bg-white cursor-default text-neutral-600">
           <Icon name="fluent:chevron-up-16-regular" />
         </Select.ScrollUpButton>
 
-        <Select.Viewport class="p-[5px]">
-          <Select.Label class="px-[25px] text-xs leading-[25px] text-mauve11">
+        <Select.Viewport class="px-2">
+          <Select.Label class="pl-6 text-sm py-2 text-neutral-500">
             {{ networkStore.testnet ? 'Testnets' : 'Mainnets' }}
           </Select.Label>
           <Select.Group>
             <Select.Item
               v-for="(network, index) in networkStore.zkSyncNetworks"
               :key="index"
-              class="cursor-pointer text-xs leading-none text-grass11 rounded-[3px] flex items-center h-[25px] pr-[35px] pl-[25px] relative select.-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-green9 data-[highlighted]:text-green1"
+              class="cursor-pointer text-base rounded-field pl-6 pr-4 py-2 text-base-content flex items-center relative select.-none data-[highlighted]:outline-none data-[highlighted]:bg-base-300 data-[highlighted]:text-base-content"
               :value="network.id"
+              :class="{ 'font-bold': network.id === networkStore.activeNetwork.id }"
               @select="networkStore.changeActiveNetwork(network.id)"
             >
               <Select.ItemIndicator class="absolute left-0 w-[25px] inline-flex items-center justify-center">
@@ -44,7 +47,7 @@
         </Select.Viewport>
 
         <Select.ScrollDownButton
-          class="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default"
+          class="flex items-center justify-center h-[32px] bg-white text-neutral-600 cursor-default"
         >
           <Icon name="radix-icons:chevron-down" />
         </Select.ScrollDownButton>

@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="isNull(isConnected)"
+    v-if="loading"
     class="text-center py-10"
   >
     <span
@@ -29,7 +29,11 @@
 </template>
 
 <script lang="ts" setup>
-import { isNull } from "es-toolkit"
-
 const { isConnected } = storeToRefs(useConnectorStore())
+
+const loading = ref<boolean>(true)
+
+onMounted(() => {
+  setTimeout(() => loading.value = false, 800)
+})
 </script>

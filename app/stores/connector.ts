@@ -1,8 +1,8 @@
 import { acceptHMRUpdate, defineStore } from "pinia"
 
 export const useConnectorStore = defineStore("connector", () => {
-  // const isConnected = ref<boolean | null>(null)
   const account = useAccount()
+
   const isConnected = computed(() => account.isConnected.value)
   const appState = useAppStateStore()
 

@@ -1,7 +1,6 @@
 <template>
-  <AccountTransferIcon :transfer="transfer" />
   <div>
-    <div class="text-lg">
+    <div>
       {{ transfer.from === address ? 'Sent to' : 'Received from' }}
       {{ transfer.from === formatShortAddress(address) ? transfer.to : formatShortAddress(transfer.from) }}
     </div>

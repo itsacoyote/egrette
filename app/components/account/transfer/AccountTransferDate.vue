@@ -1,6 +1,6 @@
 <template>
-  <div class="text-md text-neutral-500">
-    {{ useTimeAgo(date) }}
+  <div class="text-base text-neutral-500">
+    {{ useTimeAgo(date, 'twitter') }}
   </div>
 </template>
 

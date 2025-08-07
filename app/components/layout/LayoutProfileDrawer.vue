@@ -51,7 +51,7 @@
                   />
                 </button>
                 <NuxtLink
-                  :href="`${blockExplorerUrl}/address/${address}`"
+                  :href="`${networkStore.blockExplorerUrl}/address/${address}`"
                   target="_blank"
                   class="btn btn-circle"
                 >
@@ -110,13 +110,11 @@ const disconnectAccount = async () => {
 
 const connections = useConnections()
 const { address } = useAccountStore()
-const { blockExplorerUrl } = useNetworkStore()
+const networkStore = useNetworkStore()
 
 const copyAddress = () => {
   if (address.value) {
     navigator.clipboard.writeText(address.value)
   }
 }
-
-const networkStore = useNetworkStore()
 </script>

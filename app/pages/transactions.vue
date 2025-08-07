@@ -7,8 +7,8 @@
       </template>
     </LayoutPageHeader>
 
-    <ConnectionView>
+    <CommonConnectionView>
       <AccountTransactionsTable />
-    </ConnectionView>
+    </CommonConnectionView>
   </div>
 </template>

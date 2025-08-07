@@ -1,7 +1,7 @@
 <template>
   <div v-if="transfer.token">
     <div>
-      <span class="inline-block text-lg">
+      <span class="inline-block">
         {{ direction }}
         {{ formatUnits(transfer.amount, transfer.token.decimals) }}
         {{ transfer.token.symbol }}

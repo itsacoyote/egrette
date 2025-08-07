@@ -2,7 +2,7 @@
   <ClientOnly>
     <LayoutProfileDrawer>
       <LayoutNavbar />
-      <div class="m-auto max-w-[1100px] mt-6 px-4">
+      <div class="m-auto max-w-[1100px] mt-6 px-4 pb-12">
         <NuxtPage />
       </div>
     </LayoutProfileDrawer>
